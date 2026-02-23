@@ -7,7 +7,11 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-    'index': {
+    '/index': {
+      target : 'http://localhost:8080',
+      changeOrigin: true,
+    },
+    '/new': {
       target : 'http://localhost:8080',
       changeOrigin: true,
     },
