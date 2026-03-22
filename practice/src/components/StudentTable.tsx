@@ -31,7 +31,14 @@ function StudentTable() {
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
   const [search, setSearch] = useState(0)
 
-  
+  const handleDelete = (id: number) => {
+  axios.delete(`/delete/${id}`)
+    .then(() => {
+      setStudents(prev => prev.filter(student => student.id !== id)) // Remove the deleted student from the state
+      // Optionally, you can also refresh the student list here
+    })
+    .catch(err => console.error('Failed to delete student:', err))
+}
   useEffect(() => {
     axios.get<Student[]>('/index')
       .then(res => setStudents(res.data))
@@ -67,13 +74,14 @@ function StudentTable() {
       <TableContainer component={Paper} elevation={2}>
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#1a1a2e' }}>
+            <TableRow sx={{ backgroundColor: '#1a1a2e' }} >
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>First name</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Last name</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Email</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Major</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Check-ins</TableCell>
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Check-in time</TableCell>
+              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,6 +89,7 @@ function StudentTable() {
               <TableRow
                 key={student.id}
                 hover
+
                 sx={{ '&:last-child td': { border: 0 } }}
               >
                 <TableCell>{student.firstName}</TableCell>
@@ -89,6 +98,10 @@ function StudentTable() {
                 <TableCell>{student.major}</TableCell>
                 <TableCell>{student.checkInCount}</TableCell>
                 <TableCell>{formatDateTime(student.checkInTime)}</TableCell>
+                <TableCell>
+                                      <Button onClick={() => handleDelete(student.id)}>delete me </Button>
+                </TableCell>
+
               </TableRow>
             ))}
         
