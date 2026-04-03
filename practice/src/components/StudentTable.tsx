@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import {
   Container,
@@ -120,19 +119,6 @@ function StudentTable() {
 
    
   />
-      <Link
-        to="/new"
-        style={{
-          display: 'inline-block',
-          marginTop: '16px',
-          color: '#213547',
-          fontWeight: 500,
-          textDecoration: 'underline',
-          fontSize: '1rem',
-        }}
-      >
-        New Check-in
-      </Link>
     </Container>
   )
 }
